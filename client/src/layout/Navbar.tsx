@@ -1,5 +1,6 @@
 import { ReactNode, useContext } from "react";
 import UserContext from "../context/userContext";
+import logo from "../assets/logo-icon.gif";
 
 const Navbar = ({ children }: { children: ReactNode }) => {
   const { isLoaded, isSignedIn, user } = useContext(UserContext);
@@ -9,12 +10,15 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
         marginBottom: "1rem",
       }}
     >
-      <span style={{ marginRight: "1rem" }}>{user?.firstName}</span>
-      {children}
+      <img style={{ width: "60px" }} src={logo} alt="" />
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <span style={{ marginRight: "1rem" }}>{user?.firstName}</span>
+        {children}
+      </div>
     </div>
   );
 };
