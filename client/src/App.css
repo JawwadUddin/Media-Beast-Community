@@ -30,16 +30,16 @@
   margin-bottom: 1rem;
 }
 
-.btn-secondary {
+.btn-secondary, .btn-primary {
   padding: 1rem 1.5rem;
   color: white;
   border-radius: 0.25rem;
-  background: -webkit-linear-gradient(left, rgba(17, 197, 213, 1) 0%, rgba(118, 250, 207, 1) 100%);
-  opacity: 85%;
+  border: solid 1px rgba(17, 197, 213, 1);
   position: absolute;
   bottom: 1rem;
+  font-weight: bold;
 }
 
-.btn-secondary:hover {
-  opacity: 100%;
+.btn-secondary:hover, .btn-primary:hover {
+  background-color:  rgba(17, 197, 213, 1);
 }

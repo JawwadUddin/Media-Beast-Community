@@ -18,6 +18,7 @@ const Rooms = () => {
             <h2>{room.name}</h2>
             <p>{room.description}</p>
             <button className="btn-secondary">Request Entry</button>
+            {/* <button className="btn-primary">Enter Room</button> */}
           </div>
         </div>
       ))}
