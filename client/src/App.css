@@ -2,11 +2,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 3rem;
+  gap: 1rem;
+  margin-left: 1rem;
 }
 
 .room-card {
-  width: 400px;
+  width: max(400px, 45%);
   border-radius: 0.25rem;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.496);
@@ -42,4 +43,26 @@
 
 .btn-secondary:hover, .btn-primary:hover {
   background-color:  rgba(17, 197, 213, 1);
+}
+
+.sidebar-container h2 {
+  padding: 2rem 1rem;
+}
+
+.sidebar-items {
+  list-style: none;
+}
+
+.sidebar-items li {
+  padding: 0.75rem 1rem;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.sidebar-items li:hover {
+  background-color:rgb(17, 167, 165);
+  
+}
+
+.selected {
+  background-color: rgb(17, 167, 165);
 }

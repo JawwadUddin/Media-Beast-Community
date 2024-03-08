@@ -7,9 +7,9 @@
 }
 
 body {
-  background: linear-gradient(309deg, #251641, #6d2bbf);
+  background: linear-gradient(309deg, #251641, #4a1d80);
   background-repeat: no-repeat;
-  animation: AnimatedBackground 15s ease infinite;
+  /* animation: AnimatedBackground 15s ease infinite; */
   background-size: 400%;
   color: white;
   font-family: Karla;
@@ -17,7 +17,6 @@ body {
 
 button {
   background-color: inherit;
-  /* outline: none; */
   border: none;
   cursor: pointer;
   font-family: inherit;
@@ -25,8 +24,20 @@ button {
 }
 
 .container {
-  padding: 20px;
+  display: flex;
 }
+
+.sidebar {
+  flex: 0 0 250px;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.main-content {
+  flex: 1; 
+  padding: 0 20px;
+  background-color: rgba(0, 0, 0, 0.496);
+}
+
 
 @keyframes AnimatedBackground {
   0% {
