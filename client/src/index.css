@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(309deg, #251641, #6d2bbf);
+  background-repeat: no-repeat;
+  animation: AnimatedBackground 15s ease infinite;
+  background-size: 400%;
+  color: white;
+  font-family: Karla;
+}
+
+.container {
+  padding: 20px;
+}
+
+@keyframes AnimatedBackground {
+  0% {
+    background-position: 0% 51%
+  }
+  50% {
+    background-position: 100% 50%
+  }
+  100% {
+    background-position: 0% 51%
+  }
+}
