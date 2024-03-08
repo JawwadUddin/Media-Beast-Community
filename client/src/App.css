@@ -56,6 +56,8 @@
 .sidebar-items li {
   padding: 0.75rem 1rem;
   transition: background-color 0.25s ease-in-out;
+  display: flex;
+  justify-content: space-between;
 }
 
 .sidebar-items li:hover {

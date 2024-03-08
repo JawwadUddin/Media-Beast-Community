@@ -1,4 +1,5 @@
 import dummyData from "../data/dummyData.json";
+import { FaLock } from "react-icons/fa";
 
 type Rooms = {
   id: number;
@@ -16,7 +17,10 @@ const Sidebar = () => {
       <ul className="sidebar-items">
         <li className="selected">All</li>
         {rooms.map((room) => (
-          <li>{room.name}</li>
+          <li>
+            <span>{room.name}</span>
+            <FaLock size={12} />
+          </li>
         ))}
       </ul>
     </div>
