@@ -1,0 +1,45 @@
+.room-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.room-card {
+  width: 400px;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.496);
+  box-shadow: 0px 0px 5px 0px black;
+  position: relative;
+  padding-bottom: 50px;
+}
+
+.room-card img {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  opacity: 80%;
+}
+
+.room-card-info {
+  padding: 1rem;
+}
+
+.room-card-info h2, .room-card-info p {
+  margin-bottom: 1rem;
+}
+
+.btn-secondary {
+  padding: 1rem 1.5rem;
+  color: white;
+  border-radius: 0.25rem;
+  background: -webkit-linear-gradient(left, rgba(17, 197, 213, 1) 0%, rgba(118, 250, 207, 1) 100%);
+  opacity: 85%;
+  position: absolute;
+  bottom: 1rem;
+}
+
+.btn-secondary:hover {
+  opacity: 100%;
+}

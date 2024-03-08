@@ -15,6 +15,15 @@ body {
   font-family: Karla;
 }
 
+button {
+  background-color: inherit;
+  /* outline: none; */
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
 .container {
   padding: 20px;
 }
@@ -29,4 +38,11 @@ body {
   100% {
     background-position: 0% 51%
   }
+}
+
+.gradient {
+  background: -webkit-linear-gradient(left, rgba(17, 197, 213, 1) 0%, rgba(118, 250, 207, 1) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

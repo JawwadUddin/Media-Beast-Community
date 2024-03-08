@@ -7,6 +7,7 @@ import {
 import Home from "./pages/Home";
 import Navbar from "./layout/Navbar";
 import { UserProvider } from "./context/userContext";
+import "./App.css";
 
 export default function App() {
   return (
