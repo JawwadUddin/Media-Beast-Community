@@ -7,12 +7,10 @@
 }
 
 body {
-  background: linear-gradient(309deg, #251641, #4a1d80);
-  background-repeat: no-repeat;
-  /* animation: AnimatedBackground 15s ease infinite; */
-  background-size: 400%;
   color: white;
   font-family: Karla;
+  background-color: #1a1027;
+  min-height: 100vh;
 }
 
 button {
@@ -35,7 +33,6 @@ button {
 .main-content {
   flex: 1; 
   padding: 0 20px;
-  background-color: rgba(0, 0, 0, 0.496);
 }
 
 

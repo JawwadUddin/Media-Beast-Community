@@ -68,3 +68,23 @@
 .selected {
   background-color: rgb(17, 167, 165);
 }
+
+.sidebar-requests ul {
+  list-style: none;
+}
+
+.sidebar-requests > li {
+  padding: 0 1rem ;
+  margin-bottom: 1rem;
+}
+
+.sidebar-requests ul > li {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.requests {
+  display: flex;
+  gap: 0.5rem;
+}
