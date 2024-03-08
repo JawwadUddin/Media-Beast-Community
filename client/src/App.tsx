@@ -4,6 +4,9 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
+import Home from "./pages/Home";
+import Navbar from "./layout/Navbar";
+import { UserProvider } from "./context/userContext";
 
 export default function App() {
   return (
@@ -12,7 +15,14 @@ export default function App() {
         <SignInButton />
       </SignedOut>
       <SignedIn>
-        <UserButton />
+        <UserProvider>
+          <div className="container">
+            <Navbar>
+              <UserButton />
+            </Navbar>
+            <Home />
+          </div>
+        </UserProvider>
       </SignedIn>
     </header>
   );
