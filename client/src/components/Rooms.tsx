@@ -1,4 +1,5 @@
-import dummyData from "../data/dummyData.json";
+// import dummyData from "../data/dummyData.json";
+import useRooms from "../hooks/useRooms";
 
 type Rooms = {
   id: number;
@@ -8,7 +9,17 @@ type Rooms = {
 };
 
 const Rooms = () => {
-  const rooms: Rooms[] = dummyData;
+  // const rooms: Rooms[] = dummyData;
+  const { loading, error, data: rooms } = useRooms();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
     <div className="room-card-container">
       {rooms.map((room, index) => (
