@@ -1,15 +1,6 @@
-// import dummyData from "../data/dummyData.json";
 import useRooms from "../hooks/useRooms";
 
-type Rooms = {
-  id: number;
-  name: string;
-  description: string;
-  img: string;
-};
-
 const Rooms = () => {
-  // const rooms: Rooms[] = dummyData;
   const { loading, error, data: rooms } = useRooms();
 
   if (loading) {

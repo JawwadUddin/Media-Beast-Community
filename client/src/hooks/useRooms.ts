@@ -1,19 +1,29 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+type Rooms = {
+  id: number;
+  name: string;
+  description: string;
+  img: string;
+};
+
 const useRooms = () => {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<any>(null); // Change type to any or Error
-  const [data, setData] = useState<any[]>([]); // Change type to any or specific type for your data
+  const [error, setError] = useState<any>(null);
+  const [data, setData] = useState<Rooms[]>([]);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
 
     const fetchRooms = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/rooms", {
-          cancelToken: source.token,
-        });
+        const response = await axios.get<Rooms[]>(
+          "http://localhost:5000/rooms",
+          {
+            cancelToken: source.token,
+          }
+        );
         setData(response.data);
       } catch (err) {
         if (axios.isCancel(err)) {
