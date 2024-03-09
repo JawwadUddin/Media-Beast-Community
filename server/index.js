@@ -13,6 +13,76 @@ app.get("/", (req, res) => {
   res.send("Welcome to the media beast community server");
 });
 
+app.get("/api/applications", (req, res) => {
+  db.all(
+    `SELECT * FROM applications a INNER JOIN application_status s ON a.statusID = s.id WHERE status = ?`,
+    ["pending"],
+    (error, applications) => {
+      if (error) {
+        console.error("Error querying user:", error.message);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      res.json(applications);
+    }
+  );
+});
+
+app.get("/users", (req, res) => {
+  db.all(`SELECT * FROM users`, (error, users) => {
+    if (error) {
+      console.error("Error querying user:", error.message);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+    res.json(users);
+  });
+});
+
+// Route to update roleId for a user based on role name
+app.put("/api/users/:userId/update-role", (req, res) => {
+  const userId = req.params.userId;
+  const roleName = req.body.roleName; // Assuming the role name is passed in the request body
+
+  // Query the roles table to get the roleId based on the roleName
+  db.get(`SELECT id FROM roles WHERE name = ?`, [roleName], (error, role) => {
+    if (error) {
+      console.error(
+        `Error querying roleId for role ${roleName}:`,
+        error.message
+      );
+      res
+        .status(500)
+        .send(`Error querying roleId for role ${roleName}: ${error.message}`);
+    } else if (!role) {
+      res.status(404).send(`Role ${roleName} not found`);
+    } else {
+      const roleId = role.id;
+
+      // Update the roleId for the user in the users table
+      db.run(
+        `UPDATE users SET roleId = ? WHERE id = ?`,
+        [roleId, userId],
+        (error) => {
+          if (error) {
+            console.error(
+              `Error updating roleId for user ${userId}:`,
+              error.message
+            );
+            res
+              .status(500)
+              .send(
+                `Error updating roleId for user ${userId}: ${error.message}`
+              );
+          } else {
+            res
+              .status(200)
+              .send(`RoleId updated successfully for user ${userId}`);
+          }
+        }
+      );
+    }
+  });
+});
+
 app.post("/api/auth", (req, res) => {
   const { email } = req.body;
 
@@ -64,7 +134,6 @@ app.post("/api/auth", (req, res) => {
 
           // User inserted successfully, generate token
           const userInfo = { id: this.lastID, email, role: "user" };
-          console.log("new user", userInfo);
           const token = generateToken(userInfo);
           res.json({ token, userInfo });
         });
@@ -72,7 +141,6 @@ app.post("/api/auth", (req, res) => {
     } else {
       // User found, generate token
       const userInfo = { id: user.id, email: user.email, role: user.role };
-      console.log("existing user", userInfo);
       const token = generateToken(userInfo);
       res.json({ token, userInfo });
     }
