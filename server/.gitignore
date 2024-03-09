@@ -28,3 +28,7 @@ Thumbs.db
 
 # npm
 *.lock
+
+# Ignore SQLite database file
+database.sqlite
+
