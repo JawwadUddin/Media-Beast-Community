@@ -7,6 +7,7 @@ export type Applications = {
   statusId: number;
   createdAt: Date;
   status: string;
+  email: string;
 };
 
 const useApplications = () => {
