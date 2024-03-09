@@ -17,9 +17,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <header>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
+        <div style={{ backgroundColor: "white", padding: "20px" }}>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+        </div>
         <SignedIn>
           <UserProvider>
             <Navbar>
