@@ -18,7 +18,9 @@ const Navbar = ({ children }: { children: ReactNode }) => {
       <img style={{ width: "60px" }} src={logo} alt="" />
       <h1 className="gradient">Welcome to the Media Beast Community</h1>
       <div style={{ display: "flex", alignItems: "center" }}>
-        <span style={{ marginRight: "1rem" }}>{user?.firstName}</span>
+        <span style={{ marginRight: "1rem", fontWeight: "bold" }}>
+          {user?.firstName || user?.username}
+        </span>
         {children}
       </div>
     </div>
