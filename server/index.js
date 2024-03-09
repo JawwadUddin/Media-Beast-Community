@@ -15,7 +15,11 @@ app.get("/", (req, res) => {
 
 app.get("/api/applications", (req, res) => {
   db.all(
-    `SELECT * FROM applications a INNER JOIN application_status s ON a.statusID = s.id WHERE status = ?`,
+    `SELECT a.*, s.status, u.email
+    FROM applications a
+    INNER JOIN application_status s ON a.statusID = s.id
+    INNER JOIN users u ON a.userId = u.id
+    WHERE s.status = ?`,
     ["pending"],
     (error, applications) => {
       if (error) {
