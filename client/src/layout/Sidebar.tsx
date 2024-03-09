@@ -5,11 +5,20 @@ import { IoClose } from "react-icons/io5";
 import UserContext from "../context/userContext";
 import DataContext from "../context/dataContext";
 import useRooms from "../hooks/useRooms";
+import { useNavigate } from "react-router-dom";
+import { useMatch } from "react-router-dom";
 
 const Sidebar = () => {
   const { userInfo } = useContext(UserContext);
-  const { applications } = useContext(DataContext);
+  const { applications, selectedRoom, selectRoom } = useContext(DataContext);
   const { loading, error, data: rooms } = useRooms();
+  const navigate = useNavigate();
+  const isOnRootRoute = useMatch("/");
+
+  const handleClick = (roomId: number) => {
+    selectRoom(roomId);
+    navigate(`/room/${roomId}`);
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -23,9 +32,23 @@ const Sidebar = () => {
     <div className="sidebar-container">
       <h2>Rooms</h2>
       <ul className="sidebar-items">
-        <li className="selected">All</li>
+        <li
+          className={isOnRootRoute ? "selected" : ""}
+          onClick={() => {
+            selectRoom(null);
+            navigate("/");
+          }}
+        >
+          All
+        </li>
         {rooms.map((room) => (
-          <li key={room.id}>
+          <li
+            className={
+              selectedRoom ? (room.id === selectedRoom ? "selected" : "") : ""
+            }
+            key={room.id}
+            onClick={() => handleClick(room.id)}
+          >
             <span>{room.name}</span>
             {userInfo?.moderator === "moderator" && <FaLock size={12} />}
           </li>

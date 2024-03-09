@@ -34,7 +34,7 @@ export default function App() {
                 <div className="main-content">
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/room/:id" element={<Room />} />
+                    <Route path="/room/:roomId" element={<Room />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </div>
