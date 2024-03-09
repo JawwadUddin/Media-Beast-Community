@@ -16,12 +16,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const { isLoaded, isSignedIn, user } = useUser();
 
   let userInfo;
-
+  let token;
   if (user?.emailAddresses[0].emailAddress) {
     const { data } = useAuth({
       email: user?.emailAddresses[0].emailAddress,
     });
-    userInfo = data;
+    userInfo = data.userInfo;
+    token = data.token;
   }
 
   return (
