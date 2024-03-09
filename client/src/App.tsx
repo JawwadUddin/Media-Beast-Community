@@ -12,6 +12,7 @@ import "./App.css";
 import Sidebar from "./layout/Sidebar";
 import Room from "./pages/Room";
 import NotFound from "./components/NotFound";
+import { DataProvider } from "./context/dataContext";
 
 export default function App() {
   return (
@@ -24,21 +25,23 @@ export default function App() {
         </div>
         <SignedIn>
           <UserProvider>
-            <Navbar>
-              <UserButton />
-            </Navbar>
-            <div className="container">
-              <div className="sidebar">
-                <Sidebar />
+            <DataProvider>
+              <Navbar>
+                <UserButton />
+              </Navbar>
+              <div className="container">
+                <div className="sidebar">
+                  <Sidebar />
+                </div>
+                <div className="main-content">
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/room/:id" element={<Room />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </div>
               </div>
-              <div className="main-content">
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/room/:id" element={<Room />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </div>
-            </div>
+            </DataProvider>
           </UserProvider>
         </SignedIn>
       </header>
