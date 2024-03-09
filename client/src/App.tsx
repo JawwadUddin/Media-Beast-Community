@@ -18,11 +18,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <header>
-        <div style={{ backgroundColor: "white", padding: "20px" }}>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-        </div>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
         <SignedIn>
           <UserProvider>
             <DataProvider>
