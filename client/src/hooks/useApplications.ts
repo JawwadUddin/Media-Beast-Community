@@ -4,6 +4,7 @@ import axios from "axios";
 export type Applications = {
   id: number;
   userId: number;
+  roomId: number;
   statusId: number;
   createdAt: Date;
   status: string;

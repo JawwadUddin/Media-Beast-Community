@@ -69,6 +69,10 @@
   background-color: rgb(17, 167, 165);
 }
 
+.sidebar-requests > li {
+  margin-bottom: 20px;
+}
+
 .sidebar-requests ul {
   list-style: none;
 }

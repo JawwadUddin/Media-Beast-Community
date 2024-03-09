@@ -36,27 +36,38 @@ const Sidebar = () => {
         <>
           <h2>Requests</h2>
           <ul className="sidebar-requests">
-            {applications?.map((application) => (
-              <li key={application.id}>
-                <h3>{application.email}</h3>
+            {rooms.map((room) => (
+              <li key={room.id}>
+                <h3>{room.name}</h3>
+                <ul>
+                  {applications?.filter(
+                    (application) => application.roomId === room.id
+                  ).length === 0 ? (
+                    <li>No pending requests</li>
+                  ) : (
+                    applications
+                      ?.filter((application) => application.roomId === room.id)
+                      .map((application) => (
+                        <li key={application.id}>
+                          {application.email}
+                          <div className="requests">
+                            <IoClose
+                              cursor="pointer"
+                              size={20}
+                              color="#ff0000c7"
+                            />
+                            <IoMdCheckmark
+                              cursor="pointer"
+                              size={20}
+                              color="rgb(17, 167, 165)"
+                            />
+                          </div>
+                        </li>
+                      ))
+                  )}
+                </ul>
               </li>
             ))}
-            <li>
-              <h3>Room 1</h3>
-              <ul>
-                <li>
-                  Jonathon
-                  <div className="requests">
-                    <IoClose cursor="pointer" size={20} color="#ff0000c7" />
-                    <IoMdCheckmark
-                      cursor="pointer"
-                      size={20}
-                      color="rgb(17, 167, 165)"
-                    />
-                  </div>
-                </li>
-              </ul>
-            </li>
           </ul>
         </>
       )}
