@@ -86,11 +86,11 @@ db.serialize(() => {
   // Define dummy data
   const rolesData = [{ name: "user" }, { name: "moderator" }];
 
-  // const usersData = [
-  //   { email: 'user1@example.com', roleId: 1 },
-  //   { email: 'user2@example.com', roleId: 1 },
-  //   { email: 'moderator1@example.com', roleId: 2 }
-  // ];
+  const usersData = [
+    { email: "jawwadTest@gmail.com", roleId: 1 },
+    { email: "jondoe@example.com", roleId: 1 },
+    { email: "mediabeast@outlook.com", roleId: 1 },
+  ];
 
   const roomsData = [
     {
@@ -131,10 +131,13 @@ db.serialize(() => {
     },
   ];
 
-  // const applicationsData = [
-  //   { userId: 1, roomId: 1, status: "pending" },
-  //   { userId: 2, roomId: 2, status: "accepted" },
-  // ];
+  const applicationsData = [
+    { userId: 2, roomId: 1, statusId: 1 },
+    { userId: 3, roomId: 2, statusId: 1 },
+    { userId: 4, roomId: 2, statusId: 1 },
+    { userId: 2, roomId: 3, statusId: 2 },
+    { userId: 4, roomId: 3, statusId: 3 },
+  ];
 
   const applicationStatusData = [
     { status: "pending" },
@@ -144,10 +147,10 @@ db.serialize(() => {
 
   // Insert dummy data
   insertData("roles", rolesData);
-  // insertData("users", usersData);
+  insertData("users", usersData);
   insertData("rooms", roomsData);
   insertData("application_status", applicationStatusData);
-  // insertData("applications", applicationsData);
+  insertData("applications", applicationsData);
 
   console.log("Dummy data inserted successfully.");
 
@@ -162,7 +165,9 @@ db.serialize(() => {
   };
 
   logTableData("roles");
+  logTableData("users");
   logTableData("rooms");
+  logTableData("applications");
   logTableData("application_status");
 });
 
