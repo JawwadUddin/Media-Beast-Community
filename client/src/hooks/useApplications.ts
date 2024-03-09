@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import UserContext from "../context/userContext";
 
 export type Applications = {
   id: number;
@@ -15,6 +16,7 @@ const useApplications = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
   const [data, setData] = useState<Applications[]>([]);
+  const { userInfo } = useContext(UserContext);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -39,8 +41,9 @@ const useApplications = () => {
       }
     };
 
-    fetchApplications();
-
+    if (userInfo?.role === "moderator") {
+      fetchApplications();
+    }
     // Cleanup function
     return () => {
       source.cancel("Component unmounted");
