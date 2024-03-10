@@ -50,7 +50,7 @@ const Sidebar = () => {
             onClick={() => handleClick(room.id)}
           >
             <span>{room.name}</span>
-            {userInfo?.moderator === "moderator" && <FaLock size={12} />}
+            {userInfo?.role !== "moderator" && <FaLock size={12} />}
           </li>
         ))}
       </ul>

@@ -43,12 +43,15 @@ const useApplications = () => {
 
     if (userInfo?.role === "moderator") {
       fetchApplications();
+    } else {
+      setLoading(false);
     }
+
     // Cleanup function
     return () => {
       source.cancel("Component unmounted");
     };
-  }, []);
+  }, [userInfo?.role]);
 
   return { loading, error, data };
 };
