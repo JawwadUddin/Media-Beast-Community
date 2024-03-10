@@ -13,6 +13,8 @@ import Sidebar from "./layout/Sidebar";
 import Room from "./pages/Room";
 import NotFound from "./components/NotFound";
 import { DataProvider } from "./context/dataContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Unauthorised from "./components/Unauthorised";
 
 export default function App() {
   return (
@@ -34,7 +36,15 @@ export default function App() {
                 <div className="main-content">
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/room/:roomId" element={<Room />} />
+                    <Route
+                      path="/room/:roomId"
+                      element={
+                        <ProtectedRoute>
+                          <Room />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route path="/unauthorised" element={<Unauthorised />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </div>
