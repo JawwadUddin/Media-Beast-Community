@@ -14,6 +14,7 @@ export type Applications = {
 
 const useApplications = () => {
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
   const [error, setError] = useState<any>(null);
   const [data, setData] = useState<Applications[]>([]);
   const { userInfo } = useContext(UserContext);
@@ -22,6 +23,7 @@ const useApplications = () => {
     const source = axios.CancelToken.source();
 
     const fetchApplications = async () => {
+      setRefresh(false);
       try {
         const response = await axios.get<Applications[]>(
           "http://localhost:5000/api/applications",
@@ -51,9 +53,9 @@ const useApplications = () => {
     return () => {
       source.cancel("Component unmounted");
     };
-  }, [userInfo?.role]);
+  }, [userInfo?.role, refresh]);
 
-  return { loading, error, data };
+  return { loading, error, data, setRefresh };
 };
 
 export default useApplications;
