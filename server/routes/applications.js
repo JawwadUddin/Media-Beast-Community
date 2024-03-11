@@ -20,6 +20,25 @@ router.get("/", (req, res) => {
   );
 });
 
+router.get("/:userId", (req, res) => {
+  const userId = req.params.userId;
+  db.all(
+    `SELECT a.*, s.status, u.email
+    FROM applications a
+    INNER JOIN application_status s ON a.statusID = s.id
+    INNER JOIN users u ON a.userId = u.id
+    WHERE a.userId = ?`,
+    [userId],
+    (error, applications) => {
+      if (error) {
+        console.error("Error querying applications:", error.message);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+      res.json(applications);
+    }
+  );
+});
+
 router.put("/:applicationId/update", (req, res) => {
   const applicationId = req.params.applicationId;
   const applicationStatus = req.body.applicationStatus;
