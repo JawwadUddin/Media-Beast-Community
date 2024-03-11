@@ -8,13 +8,15 @@ type DataContext = {
   selectedRoom: number | null;
   selectRoom: (roomId: number | null) => void;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+  setUserApplicationsRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const DataContext = createContext({} as DataContext);
 
 export const DataProvider = ({ children }: { children: ReactNode }) => {
   const { data: applications, setRefresh } = useApplications();
-  const { data: userApplications } = useUserApplications();
+  const { data: userApplications, setRefresh: setUserApplicationsRefresh } =
+    useUserApplications();
   const [selectedRoom, setSelectedRoom] = useState<number | null>(null);
   function selectRoom(roomId: number | null) {
     setSelectedRoom(roomId);
@@ -27,6 +29,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         selectedRoom,
         selectRoom,
         setRefresh,
+        setUserApplicationsRefresh,
       }}
     >
       {children}

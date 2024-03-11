@@ -3,6 +3,7 @@ import useRooms from "../hooks/useRooms";
 import DataContext from "../context/dataContext";
 import UserContext from "../context/userContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 type CombinedData = {
   id: number;
@@ -17,7 +18,16 @@ const Rooms = () => {
   const navigate = useNavigate();
   const { userInfo } = useContext(UserContext);
   const isModerator = userInfo?.role === "moderator";
-  const { userApplications, selectRoom } = useContext(DataContext);
+  const { userApplications, selectRoom, setUserApplicationsRefresh } =
+    useContext(DataContext);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   const handleRoomEntry = (roomId: number) => {
     selectRoom(roomId);
@@ -32,13 +42,19 @@ const Rooms = () => {
     }
     return room;
   });
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  const createApplication = async (roomId: number) => {
+    try {
+      await axios.post(`http://localhost:5000/api/applications`, {
+        userId: userInfo.id,
+        roomId,
+      });
+      //refresh user applications
+      setUserApplicationsRefresh(true);
+    } catch (error) {
+      console.error("Error accepting application:", error);
+    }
+  };
 
   const getButtonContent = (status: string, roomId: number) => {
     switch (status) {
@@ -77,7 +93,7 @@ const Rooms = () => {
             ) : (
               <button
                 className="btn-request"
-                onClick={() => console.log("clicked join" + room.id)}
+                onClick={() => createApplication(room.id)}
               >
                 Request Entry
               </button>
