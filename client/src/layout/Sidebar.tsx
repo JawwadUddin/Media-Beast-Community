@@ -7,13 +7,46 @@ import DataContext from "../context/dataContext";
 import useRooms from "../hooks/useRooms";
 import { useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
+import axios from "axios";
 
 const Sidebar = () => {
   const { userInfo } = useContext(UserContext);
-  const { applications, selectedRoom, selectRoom } = useContext(DataContext);
+  const { applications, selectedRoom, selectRoom, setRefresh } =
+    useContext(DataContext);
   const { loading, error, data: rooms } = useRooms();
   const navigate = useNavigate();
   const isOnRootRoute = useMatch("/");
+
+  const acceptApplication = async (applicationId: number) => {
+    try {
+      // Send a PUT request to the server to update the application status to "accepted"
+      await axios.put(
+        `http://localhost:5000/api/applications/${applicationId}/update`,
+        {
+          applicationStatus: "accepted",
+        }
+      );
+      //remove application from rooms array by refreshing applications data
+      setRefresh(true);
+    } catch (error) {
+      console.error("Error accepting application:", error);
+    }
+  };
+  const rejectApplication = async (applicationId: number) => {
+    try {
+      // Send a PUT request to the server to update the application status to "accepted"
+      await axios.put(
+        `http://localhost:5000/api/applications/${applicationId}/update`,
+        {
+          applicationStatus: "rejected",
+        }
+      );
+      //remove application from rooms array by refreshing applications data
+      setRefresh(true);
+    } catch (error) {
+      console.error("Error accepting application:", error);
+    }
+  };
 
   const handleClick = (roomId: number) => {
     selectRoom(roomId);
@@ -78,11 +111,13 @@ const Sidebar = () => {
                               cursor="pointer"
                               size={20}
                               color="#ff0000c7"
+                              onClick={() => rejectApplication(application.id)}
                             />
                             <IoMdCheckmark
                               cursor="pointer"
                               size={20}
                               color="rgb(17, 167, 165)"
+                              onClick={() => acceptApplication(application.id)}
                             />
                           </div>
                         </li>

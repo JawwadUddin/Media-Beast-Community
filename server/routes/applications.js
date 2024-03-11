@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
   );
 });
 
-router.put("/:applicationId/update-application", (req, res) => {
+router.put("/:applicationId/update", (req, res) => {
   const applicationId = req.params.applicationId;
   const applicationStatus = req.body.applicationStatus;
 
