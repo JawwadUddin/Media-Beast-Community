@@ -9,24 +9,44 @@ import { useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
 import axios from "axios";
 
+type CombinedData = {
+  id: number;
+  name: string;
+  description: string;
+  img: string;
+  unlocked?: boolean;
+};
+
 const Sidebar = () => {
   const { userInfo } = useContext(UserContext);
-  const { applications, selectedRoom, selectRoom, setRefresh } =
-    useContext(DataContext);
+  const {
+    applications,
+    selectedRoom,
+    selectRoom,
+    setRefresh,
+    userApplications,
+  } = useContext(DataContext);
   const { loading, error, data: rooms } = useRooms();
   const navigate = useNavigate();
   const isOnRootRoute = useMatch("/");
 
+  const combinedData: CombinedData[] = rooms.map((room) => {
+    if (!userApplications) return room;
+    const application = userApplications.find((app) => app.roomId === room.id);
+    if (application?.status === "accepted") {
+      return { ...room, unlocked: true };
+    }
+    return room;
+  });
+
   const acceptApplication = async (applicationId: number) => {
     try {
-      // Send a PUT request to the server to update the application status to "accepted"
       await axios.put(
         `http://localhost:5000/api/applications/${applicationId}/update`,
         {
           applicationStatus: "accepted",
         }
       );
-      //remove application from rooms array by refreshing applications data
       setRefresh(true);
     } catch (error) {
       console.error("Error accepting application:", error);
@@ -34,14 +54,12 @@ const Sidebar = () => {
   };
   const rejectApplication = async (applicationId: number) => {
     try {
-      // Send a PUT request to the server to update the application status to "accepted"
       await axios.put(
         `http://localhost:5000/api/applications/${applicationId}/update`,
         {
           applicationStatus: "rejected",
         }
       );
-      //remove application from rooms array by refreshing applications data
       setRefresh(true);
     } catch (error) {
       console.error("Error accepting application:", error);
@@ -74,7 +92,7 @@ const Sidebar = () => {
         >
           All
         </li>
-        {rooms.map((room) => (
+        {combinedData.map((room) => (
           <li
             className={
               selectedRoom ? (room.id === selectedRoom ? "selected" : "") : ""
@@ -83,7 +101,9 @@ const Sidebar = () => {
             onClick={() => handleClick(room.id)}
           >
             <span>{room.name}</span>
-            {userInfo?.role !== "moderator" && <FaLock size={12} />}
+            {userInfo?.role !== "moderator" && !room.unlocked && (
+              <FaLock size={12} />
+            )}
           </li>
         ))}
       </ul>
