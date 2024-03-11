@@ -19,7 +19,7 @@ const useRooms = () => {
     const fetchRooms = async () => {
       try {
         const response = await axios.get<Rooms[]>(
-          "http://localhost:5000/rooms",
+          "http://localhost:5000/api/rooms",
           {
             cancelToken: source.token,
           }
