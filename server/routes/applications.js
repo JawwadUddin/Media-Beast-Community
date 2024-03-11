@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
+const auth = require("../middleware/auth");
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   db.all(
     `SELECT a.*, s.status, u.email
     FROM applications a
@@ -20,7 +21,7 @@ router.get("/", (req, res) => {
   );
 });
 
-router.get("/:userId", (req, res) => {
+router.get("/:userId", auth, (req, res) => {
   const userId = req.params.userId;
   db.all(
     `SELECT a.*, s.status, u.email
@@ -39,7 +40,7 @@ router.get("/:userId", (req, res) => {
   );
 });
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
   const { userId, roomId } = req.body;
 
   if (!userId || !roomId)
@@ -74,19 +75,17 @@ router.post("/", (req, res) => {
             return;
           }
           console.log(`New application generated with id ${this.lastID}`);
-          res
-            .status(200)
-            .json({
-              message: "Application generated successfully",
-              applicationId: this.lastID,
-            });
+          res.status(200).json({
+            message: "Application generated successfully",
+            applicationId: this.lastID,
+          });
         }
       );
     }
   );
 });
 
-router.put("/:applicationId/update", (req, res) => {
+router.put("/:applicationId/update", auth, (req, res) => {
   const applicationId = req.params.applicationId;
   const applicationStatus = req.body.applicationStatus;
 

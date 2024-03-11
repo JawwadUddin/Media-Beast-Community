@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
+const auth = require("../middleware/auth");
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
+  console.log(req.user);
   db.all(`SELECT * FROM users`, (error, users) => {
     if (error) {
       console.error("Error querying user:", error.message);
@@ -13,7 +15,7 @@ router.get("/", (req, res) => {
 });
 
 // Route to update roleId for a user based on role name
-router.put("/:userId/update-role", (req, res) => {
+router.put("/:userId/update-role", auth, (req, res) => {
   const userId = req.params.userId;
   const roleName = req.body.roleName; // Assuming the role name is passed in the request body
 

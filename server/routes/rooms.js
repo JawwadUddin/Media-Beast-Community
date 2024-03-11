@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
+const auth = require("../middleware/auth");
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   db.all(`SELECT * FROM rooms`, [], (error, rows) => {
     if (error) {
       console.error(`Error querying data from rooms table:`, error.message);
