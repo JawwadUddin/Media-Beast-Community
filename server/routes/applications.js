@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 const auth = require("../middleware/auth");
+const moderator = require("../middleware/moderator");
 
-router.get("/", auth, (req, res) => {
+router.get("/", [auth, moderator], (req, res) => {
   db.all(
     `SELECT a.*, s.status, u.email
     FROM applications a
