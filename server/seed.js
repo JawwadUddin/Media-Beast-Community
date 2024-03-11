@@ -133,11 +133,11 @@ db.serialize(() => {
   ];
 
   const applicationsData = [
-    { userId: 1, roomId: 1, statusId: 1 },
+    { userId: 3, roomId: 1, statusId: 1 },
     { userId: 2, roomId: 2, statusId: 1 },
     { userId: 3, roomId: 2, statusId: 1 },
     { userId: 4, roomId: 3, statusId: 1 },
-    { userId: 1, roomId: 5, statusId: 1 },
+    { userId: 2, roomId: 5, statusId: 1 },
   ];
 
   const applicationStatusData = [
