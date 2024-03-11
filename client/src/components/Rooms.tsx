@@ -1,8 +1,37 @@
+import { useContext } from "react";
 import useRooms from "../hooks/useRooms";
+import DataContext from "../context/dataContext";
+import UserContext from "../context/userContext";
+import { useNavigate } from "react-router-dom";
+
+type CombinedData = {
+  id: number;
+  name: string;
+  description: string;
+  img: string;
+  status?: string;
+};
 
 const Rooms = () => {
   const { loading, error, data: rooms } = useRooms();
+  const navigate = useNavigate();
+  const { userInfo } = useContext(UserContext);
+  const isModerator = userInfo?.role === "moderator";
+  const { userApplications, selectRoom } = useContext(DataContext);
 
+  const handleRoomEntry = (roomId: number) => {
+    selectRoom(roomId);
+    navigate(`/room/${roomId}`);
+  };
+
+  const combinedData: CombinedData[] = rooms.map((room) => {
+    if (!userApplications) return room;
+    const application = userApplications.find((app) => app.roomId === room.id);
+    if (application) {
+      return { ...room, status: application.status };
+    }
+    return room;
+  });
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -11,16 +40,48 @@ const Rooms = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  const getButtonContent = (status: string, roomId: number) => {
+    switch (status) {
+      case "pending":
+        return <button className="btn-pending">Pending</button>;
+      case "rejected":
+        return <button className="btn-rejected">Rejected</button>;
+      case "accepted":
+        return (
+          <button className="btn-join" onClick={() => handleRoomEntry(roomId)}>
+            Enter
+          </button>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="room-card-container">
-      {rooms.map((room, index) => (
+      {combinedData.map((room, index) => (
         <div className="room-card" key={index}>
           <img src={room.img} />
           <div className="room-card-info">
             <h2>{room.name}</h2>
             <p>{room.description}</p>
-            <button className="btn-secondary">Request Entry</button>
-            {/* <button className="btn-primary">Enter Room</button> */}
+            {isModerator ? (
+              <button
+                className="btn-join"
+                onClick={() => handleRoomEntry(room.id)}
+              >
+                Enter
+              </button>
+            ) : room.status ? (
+              getButtonContent(room.status, room.id)
+            ) : (
+              <button
+                className="btn-request"
+                onClick={() => console.log("clicked join" + room.id)}
+              >
+                Request Entry
+              </button>
+            )}
           </div>
         </div>
       ))}
