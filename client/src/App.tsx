@@ -15,13 +15,20 @@ import NotFound from "./components/NotFound";
 import { DataProvider } from "./context/dataContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Unauthorised from "./components/Unauthorised";
+import logo from "../src/assets/logo-icon.gif";
 
 export default function App() {
   return (
     <BrowserRouter>
       <header>
         <SignedOut>
-          <SignInButton />
+          <div className="sign-in-page">
+            <img src={logo} />
+            <div>
+              <h1>Welcome to the Media Beast Community</h1>
+              <SignInButton />
+            </div>
+          </div>
         </SignedOut>
         <SignedIn>
           <UserProvider>

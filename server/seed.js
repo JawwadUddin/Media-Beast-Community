@@ -87,7 +87,7 @@ db.serialize(() => {
   const rolesData = [{ name: "user" }, { name: "moderator" }];
 
   const usersData = [
-    { email: "jawwad@gmail.com", roleId: 1 },
+    { email: "jawwaduddin54@gmail.com", roleId: 2 },
     { email: "jondoe@example.com", roleId: 1 },
     { email: "harry@outlook.com", roleId: 1 },
     { email: "mark@gmail.com", roleId: 1 },
