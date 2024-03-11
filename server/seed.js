@@ -87,9 +87,10 @@ db.serialize(() => {
   const rolesData = [{ name: "user" }, { name: "moderator" }];
 
   const usersData = [
-    { email: "jawwadTest@gmail.com", roleId: 1 },
+    { email: "jawwad@gmail.com", roleId: 1 },
     { email: "jondoe@example.com", roleId: 1 },
-    { email: "mediabeast@outlook.com", roleId: 1 },
+    { email: "harry@outlook.com", roleId: 1 },
+    { email: "mark@gmail.com", roleId: 1 },
   ];
 
   const roomsData = [
@@ -132,11 +133,11 @@ db.serialize(() => {
   ];
 
   const applicationsData = [
-    { userId: 2, roomId: 1, statusId: 1 },
+    { userId: 1, roomId: 1, statusId: 1 },
+    { userId: 2, roomId: 2, statusId: 1 },
     { userId: 3, roomId: 2, statusId: 1 },
-    { userId: 4, roomId: 2, statusId: 1 },
-    { userId: 2, roomId: 3, statusId: 2 },
-    { userId: 4, roomId: 3, statusId: 3 },
+    { userId: 4, roomId: 3, statusId: 1 },
+    { userId: 1, roomId: 5, statusId: 1 },
   ];
 
   const applicationStatusData = [

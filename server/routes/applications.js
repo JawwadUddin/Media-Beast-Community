@@ -23,7 +23,7 @@ router.get("/", [auth, moderator], (req, res) => {
 });
 
 router.get("/:userId", auth, (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.user.userId;
   db.all(
     `SELECT a.*, s.status, u.email
     FROM applications a
@@ -42,7 +42,8 @@ router.get("/:userId", auth, (req, res) => {
 });
 
 router.post("/", auth, (req, res) => {
-  const { userId, roomId } = req.body;
+  const userId = req.user.userId;
+  const { roomId } = req.body;
 
   if (!userId || !roomId)
     res.status(400).send("UserId and RoomId are required");
@@ -86,7 +87,7 @@ router.post("/", auth, (req, res) => {
   );
 });
 
-router.put("/:applicationId/update", auth, (req, res) => {
+router.put("/:applicationId/update", [auth, moderator], (req, res) => {
   const applicationId = req.params.applicationId;
   const applicationStatus = req.body.applicationStatus;
 
@@ -129,7 +130,7 @@ router.put("/:applicationId/update", auth, (req, res) => {
   );
 });
 
-router.delete("/:applicationId", (req, res) => {
+router.delete("/:applicationId", [auth, moderator], (req, res) => {
   const applicationId = req.params.applicationId;
 
   db.run(
