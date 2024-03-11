@@ -63,7 +63,8 @@
 }
 
 .sidebar-container h2 {
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem;
+  background-color: #a2157e;
 }
 
 .sidebar-items {

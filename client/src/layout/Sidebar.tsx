@@ -36,8 +36,20 @@ const Sidebar = () => {
     if (application?.status === "accepted") {
       return { ...room, unlocked: true };
     }
-    return room;
+    return { ...room };
   });
+
+  const roomsWithApplications = rooms.filter((room) =>
+    applications?.some((application) => application.roomId === room.id)
+  );
+
+  const requestData = roomsWithApplications.map((room) => ({
+    name: room.name,
+    id: room.id,
+    applications: applications?.filter(
+      (application) => application.roomId === room.id
+    ),
+  }));
 
   const acceptApplication = async (applicationId: number) => {
     try {
@@ -112,40 +124,38 @@ const Sidebar = () => {
         <>
           <h2>Requests</h2>
           <ul className="sidebar-requests">
-            {rooms.map((room) => (
-              <li key={room.id}>
-                <h3>{room.name}</h3>
-                <ul>
-                  {applications?.filter(
-                    (application) => application.roomId === room.id
-                  ).length === 0 ? (
-                    <li>No pending requests</li>
-                  ) : (
-                    applications
-                      ?.filter((application) => application.roomId === room.id)
-                      .map((application) => (
-                        <li key={application.id}>
-                          {application.email}
-                          <div className="requests">
-                            <IoClose
-                              cursor="pointer"
-                              size={20}
-                              color="#ff0000c7"
-                              onClick={() => rejectApplication(application.id)}
-                            />
-                            <IoMdCheckmark
-                              cursor="pointer"
-                              size={20}
-                              color="rgb(17, 167, 165)"
-                              onClick={() => acceptApplication(application.id)}
-                            />
-                          </div>
-                        </li>
-                      ))
-                  )}
-                </ul>
-              </li>
-            ))}
+            {requestData.length === 0 ? (
+              <ul>
+                <li>No requests</li>
+              </ul>
+            ) : (
+              requestData.map((room) => (
+                <li key={room.id}>
+                  <h3>{room.name}</h3>
+                  <ul>
+                    {room.applications?.map((application) => (
+                      <li key={application.id}>
+                        {application.email}
+                        <div className="requests">
+                          <IoClose
+                            cursor="pointer"
+                            size={20}
+                            color="#ff0000c7"
+                            onClick={() => rejectApplication(application.id)}
+                          />
+                          <IoMdCheckmark
+                            cursor="pointer"
+                            size={20}
+                            color="rgb(17, 167, 165)"
+                            onClick={() => acceptApplication(application.id)}
+                          />
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))
+            )}
           </ul>
         </>
       )}
