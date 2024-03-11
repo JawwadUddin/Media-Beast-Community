@@ -18,7 +18,7 @@ type CombinedData = {
 };
 
 const Sidebar = () => {
-  const { userInfo } = useContext(UserContext);
+  const { userInfo, token } = useContext(UserContext);
   const {
     applications,
     selectedRoom,
@@ -57,6 +57,11 @@ const Sidebar = () => {
         `http://localhost:5000/api/applications/${applicationId}/update`,
         {
           applicationStatus: "accepted",
+        },
+        {
+          headers: {
+            "x-auth-token": token,
+          },
         }
       );
       setRefresh(true);
@@ -70,6 +75,11 @@ const Sidebar = () => {
         `http://localhost:5000/api/applications/${applicationId}/update`,
         {
           applicationStatus: "rejected",
+        },
+        {
+          headers: {
+            "x-auth-token": token,
+          },
         }
       );
       setRefresh(true);

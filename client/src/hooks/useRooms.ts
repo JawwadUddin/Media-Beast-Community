@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import UserContext from "../context/userContext";
 
 type Rooms = {
   id: number;
@@ -12,6 +13,7 @@ const useRooms = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
   const [data, setData] = useState<Rooms[]>([]);
+  const { token } = useContext(UserContext);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -22,6 +24,9 @@ const useRooms = () => {
           "http://localhost:5000/api/rooms",
           {
             cancelToken: source.token,
+            headers: {
+              "x-auth-token": token,
+            },
           }
         );
         setData(response.data);
@@ -36,13 +41,15 @@ const useRooms = () => {
       }
     };
 
-    fetchRooms();
+    if (token) {
+      fetchRooms();
+    }
 
     // Cleanup function
     return () => {
       source.cancel("Component unmounted");
     };
-  }, []);
+  }, [token]);
 
   return { loading, error, data };
 };

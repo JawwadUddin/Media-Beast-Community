@@ -17,7 +17,7 @@ const useUserApplications = () => {
   const [refresh, setRefresh] = useState(false);
   const [error, setError] = useState<any>(null);
   const [data, setData] = useState<Applications[]>([]);
-  const { userInfo } = useContext(UserContext);
+  const { userInfo, token } = useContext(UserContext);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -29,6 +29,9 @@ const useUserApplications = () => {
           `http://localhost:5000/api/applications/${userInfo.id}`,
           {
             cancelToken: source.token,
+            headers: {
+              "x-auth-token": token,
+            },
           }
         );
         setData(response.data);
@@ -43,7 +46,7 @@ const useUserApplications = () => {
       }
     };
 
-    if (userInfo?.role === "user") {
+    if (userInfo?.role === "user" && token) {
       fetchApplications();
     } else {
       setLoading(false);
@@ -53,7 +56,7 @@ const useUserApplications = () => {
     return () => {
       source.cancel("Component unmounted");
     };
-  }, [userInfo?.role, refresh]);
+  }, [userInfo?.role, refresh, token]);
 
   return { loading, error, data, setRefresh };
 };

@@ -16,7 +16,7 @@ type CombinedData = {
 const Rooms = () => {
   const { loading, error, data: rooms } = useRooms();
   const navigate = useNavigate();
-  const { userInfo } = useContext(UserContext);
+  const { userInfo, token } = useContext(UserContext);
   const isModerator = userInfo?.role === "moderator";
   const { userApplications, selectRoom, setUserApplicationsRefresh } =
     useContext(DataContext);
@@ -45,10 +45,18 @@ const Rooms = () => {
 
   const createApplication = async (roomId: number) => {
     try {
-      await axios.post(`http://localhost:5000/api/applications`, {
-        userId: userInfo.id,
-        roomId,
-      });
+      await axios.post(
+        `http://localhost:5000/api/applications`,
+        {
+          userId: userInfo.id,
+          roomId,
+        },
+        {
+          headers: {
+            "x-auth-token": token,
+          },
+        }
+      );
       //refresh user applications
       setUserApplicationsRefresh(true);
     } catch (error) {

@@ -8,6 +8,7 @@ type UserContext = {
   isSignedIn: boolean | undefined;
   user: UserResource | null | undefined;
   userInfo: any;
+  token: string;
 };
 
 const UserContext = createContext({} as UserContext);
@@ -26,7 +27,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <UserContext.Provider value={{ isLoaded, isSignedIn, user, userInfo }}>
+    <UserContext.Provider
+      value={{ isLoaded, isSignedIn, user, userInfo, token }}
+    >
       {children}
     </UserContext.Provider>
   );
