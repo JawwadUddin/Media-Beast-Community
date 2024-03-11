@@ -128,4 +128,23 @@ router.put("/:applicationId/update", auth, (req, res) => {
   );
 });
 
+router.delete("/:applicationId", (req, res) => {
+  const applicationId = req.params.applicationId;
+
+  db.run(
+    "DELETE FROM applications WHERE id = ?",
+    [applicationId],
+    function (err) {
+      if (err) {
+        console.error("Error deleting application:", err.message);
+        res.status(500).send("Error deleting application");
+        return;
+      }
+
+      console.log(`Application ${applicationId} deleted successfully`);
+      res.status(200).send(`Application ${applicationId} deleted successfully`);
+    }
+  );
+});
+
 module.exports = router;
