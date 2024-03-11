@@ -39,6 +39,53 @@ router.get("/:userId", (req, res) => {
   );
 });
 
+router.post("/", (req, res) => {
+  const { userId, roomId } = req.body;
+
+  if (!userId || !roomId)
+    res.status(400).send("UserId and RoomId are required");
+
+  db.get(
+    "SELECT id FROM application_status WHERE status = ?",
+    ["pending"],
+    (err, row) => {
+      if (err) {
+        console.error("Error querying status:", err.message);
+        res.status(500).send("Error generating application");
+        return;
+      }
+
+      if (!row) {
+        console.error("Pending status not found");
+        res.status(500).send("Pending status not found");
+        return;
+      }
+
+      const statusId = row.id;
+
+      // Insert the new application with default statusId set to pending
+      db.run(
+        "INSERT INTO applications (userId, roomId, statusId) VALUES (?, ?, ?)",
+        [userId, roomId, statusId],
+        function (err) {
+          if (err) {
+            console.error("Error inserting application:", err.message);
+            res.status(500).send("Error generating application");
+            return;
+          }
+          console.log(`New application generated with id ${this.lastID}`);
+          res
+            .status(200)
+            .json({
+              message: "Application generated successfully",
+              applicationId: this.lastID,
+            });
+        }
+      );
+    }
+  );
+});
+
 router.put("/:applicationId/update", (req, res) => {
   const applicationId = req.params.applicationId;
   const applicationStatus = req.body.applicationStatus;
